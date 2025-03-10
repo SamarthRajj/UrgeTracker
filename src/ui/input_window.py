@@ -19,6 +19,12 @@ class InputWindow(QWidget):
         self.config = Config()
         self.logger = Logger()
         self.selected_label = selected_label
+        
+        # Set window flags to ensure focus
+        self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
+        self.setAttribute(Qt.WA_ShowWithoutActivating, False)
+        self.setFocusPolicy(Qt.StrongFocus)
+        
         self.initUI()
         self.startTimer()
         self.logger.info(f"Input Window initialized with label: {selected_label}")
@@ -133,3 +139,9 @@ class InputWindow(QWidget):
                 self.close()
         except Exception as e:
             self.logger.error(f"Error handling key press in input window: {str(e)}")
+
+    def showEvent(self, event):
+        """Handle window show event."""
+        super().showEvent(event)
+        # Set focus to the text input when shown
+        QTimer.singleShot(10, lambda: self.textInput.setFocus())

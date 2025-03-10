@@ -4,7 +4,7 @@ from PyQt5.QtCore import Qt
 from src.config import Config
 from src.ui.input_window import InputWindow
 from src.utils.logger import Logger
-from PyQt5.QtWidgets import QSizePolicy
+from PyQt5.QtWidgets import QSizePolicy, QApplication
 
 class LabelSelectionWindow(QWidget):
     """Window for selecting urge labels."""
@@ -15,6 +15,16 @@ class LabelSelectionWindow(QWidget):
         self.config = Config()
         self.logger = Logger()
         self.selected_label = None
+        
+        # Set window flags to stay on top and get focus
+        self.setWindowFlags(
+            Qt.FramelessWindowHint | 
+            Qt.WindowStaysOnTopHint |
+            Qt.WindowDoesNotAcceptFocus
+        )
+        # Then immediately set focus policy
+        self.setAttribute(Qt.WA_ShowWithoutActivating, False)
+        self.setFocusPolicy(Qt.StrongFocus)
         
         # Load labels from config and create mapping of shortcuts to text
         self.options = {}  # mapping of key code to default label
@@ -106,6 +116,10 @@ class LabelSelectionWindow(QWidget):
             self.adjustSize()
             self.setFixedWidth(window_width)
             
+            # Add this at the end of the method
+            # We'll call this later when showing the window
+            self.center_requested = True
+            
         except Exception as e:
             self.logger.error(f"Error initializing UI: {str(e)}")
             raise
@@ -144,3 +158,24 @@ class LabelSelectionWindow(QWidget):
                 self.close()
         except Exception as e:
             self.logger.error(f"Error handling key press: {str(e)}")
+
+    def center_on_screen(self):
+        """Center the window on the screen."""
+        try:
+            # Get the screen geometry
+            screen = QApplication.primaryScreen().geometry()
+            # Calculate the center position
+            x = (screen.width() - self.width()) // 2
+            y = (screen.height() - self.height()) // 2
+            # Move the window
+            self.move(x, y)
+            self.logger.info(f"Window centered at ({x}, {y})")
+        except Exception as e:
+            self.logger.error(f"Error centering window: {str(e)}")
+
+    def showEvent(self, event):
+        """Handle window show event."""
+        super().showEvent(event)
+        # Request focus when window is shown
+        self.setFocus()
+        self.activateWindow()

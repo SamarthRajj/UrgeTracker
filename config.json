@@ -2,7 +2,7 @@
   "app": {
     "name": "Urge",
     "window_width": 600,
-    "window_height": 40
+    "window_height": 100
   },
   "ui": {
     "background_color": "#333",

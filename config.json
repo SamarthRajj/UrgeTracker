@@ -1,0 +1,24 @@
+{
+  "app": {
+    "name": "Urge",
+    "window_width": 600,
+    "window_height": 40
+  },
+  "ui": {
+    "background_color": "#333",
+    "text_color": "#fff",
+    "font_size_normal": "14px",
+    "font_size_large": "16px"
+  },
+  "labels": {
+    "1": "Label 1",
+    "2": "Label 2",
+    "3": "Label 3",
+    "4": "Label 4",
+    "5": "Label 5"
+  },
+  "paths": {
+    "logs": "./logs",
+    "assets": "./assets"
+  }
+}

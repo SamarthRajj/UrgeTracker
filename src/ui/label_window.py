@@ -151,6 +151,7 @@ class LabelSelectionWindow(QWidget):
                 self.selected_label = self.option_edits[event.key()].text()
                 self.logger.info(f"Label selected: {self.selected_label}")
                 self.input_window = InputWindow(selected_label=self.selected_label)
+                # self.input_window.input_complete.connect(self.close)
                 self.input_window.show()
                 self.close()
             elif event.key() == Qt.Key_Escape:

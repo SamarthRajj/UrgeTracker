@@ -4,7 +4,7 @@ from datetime import datetime
 from PyQt5.QtWidgets import (
     QWidget, QLineEdit, QHBoxLayout, QLabel, QWidgetAction
 )
-from PyQt5.QtCore import Qt, QTimer
+from PyQt5.QtCore import Qt, QTimer, pyqtSignal
 from PyQt5.QtGui import QIcon
 
 from src.config import Config
@@ -12,7 +12,7 @@ from src.utils.logger import Logger
 
 class InputWindow(QWidget):
     """Window for user input after label selection."""
-    
+    input_complete = pyqtSignal(str,str)
     def __init__(self, selected_label=None):
         """Initialize the input window."""
         super().__init__()
@@ -123,6 +123,8 @@ class InputWindow(QWidget):
             
             if text:
                 self.logger.log_input(text, self.selected_label)
+                # self.input_complete.emit(text,self.selected_label)
+                self.close()
             else:
                 self.logger.warning("Empty text submitted")
                 

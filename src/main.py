@@ -36,7 +36,7 @@ class UrgeApp(QObject):  # Make UrgeApp inherit from QObject
         self.app = QApplication(sys.argv)
         self.logger = Logger()
         self.selection_window = None
-        
+        self.app.setQuitOnLastWindowClosed(False)
         # Create system tray icon first
         self.setup_tray()
         
